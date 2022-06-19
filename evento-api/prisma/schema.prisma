@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id             String   @id @default(uuid()) // ID
+  documento      String   @unique
+  name           String
+  email          String
+  dataNascimento DateTime
+  celular        String?
+  @@map("usuarios")
+}
+
+model Evento {
+  id               String   @id @default(uuid()) // ID
+  nome             String
+  descricao        String?
+  capacidadeMaxima Int
+  dataHoraInicio   DateTime
+  dataHoraFinal    DateTime
+  idUsuario        String // ID Usuário anfitrião
+  idEndereco       String // ID Endereco do evento 
+  @@map("eventos")
+}
+
+model Endereco {
+  id          String  @id @default(uuid()) // ID
+  logradouro  String
+  bairro      String
+  numero      String
+  complemento String?
+  cidade      String
+  uf          String
+  @@map("enderecos")
+}
+
+model Participante {
+  id           String   @id @default(uuid()) // ID
+  idEvento     String
+  idUsuario    String
+  dataCadastro DateTime
+  @@map("participantes")
+}
+
+model ListaEspera {
+  id           String   @id @default(uuid()) // ID
+  idEvento     String
+  idUsuario    String
+  dataCadastro DateTime
+  @@map("listaEspera")
+}
