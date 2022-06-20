@@ -1,9 +1,9 @@
 export default interface ICreateEventoModel {
-    nome: string;
-    descricao: string;
-    capacidadeMaxima: number;
-    dataHoraInicio: Date;
-    dataHoraFinal: Date;
-    idUsuario: string;
-    idLocal: string
+    Nome: string;
+    Descricao: string;
+    CapacidadeMaxima: number;
+    DataHoraInicio: Date;
+    DataHoraFinal: Date;
+    IdUsuario: string;
+    IdLocal: string
 }

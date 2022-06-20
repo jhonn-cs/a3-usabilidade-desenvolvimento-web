@@ -12,12 +12,7 @@ export class CreateEventoController extends BaseEventoController {
     @httpPost("/")
     private async handle(@request() request: Request, @response() response: Response): Promise<interfaces.IHttpActionResult> {
         try {
-            const { name, description } = request.body;
-
-            // return this.created(`/${ROUTE_PREFIX}/${category.id}`, null);
-
-            return null;
-
+            return this.created("", "");
         } catch (error) {
             return this.internalServerError(error);
         }

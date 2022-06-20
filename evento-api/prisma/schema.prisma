@@ -2,59 +2,94 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model Usuario {
-  id             String   @id @default(uuid()) // ID
-  documento      String   @unique
-  name           String
-  email          String
-  dataNascimento DateTime
-  celular        String?
-  @@map("usuarios")
+    Id               String        @id @default(uuid()) @db.Uuid
+    DataHoraCadastro DateTime      @default(now())
+    Email            String        @unique @db.VarChar(100)
+    Senha            String        @db.VarChar(15)
+    Eventos          Evento[]
+    Participante     Participante?
+
+    @@map("Usuarios")
 }
 
 model Evento {
-  id               String   @id @default(uuid()) // ID
-  nome             String
-  descricao        String?
-  capacidadeMaxima Int
-  dataHoraInicio   DateTime
-  dataHoraFinal    DateTime
-  idUsuario        String // ID Usuário anfitrião
-  idEndereco       String // ID Endereco do evento 
-  @@map("eventos")
+    Id               String               @id @default(uuid()) @db.Uuid
+    DataHoraCadastro DateTime             @default(now())
+    Nome             String               @db.VarChar(50)
+    Descricao        String?
+    CapacidadeMaxima Int                  @db.SmallInt
+    DataHoraInicio   DateTime
+    DataHoraFinal    DateTime
+    IdUsuario        String               @db.Uuid
+    Usuario          Usuario              @relation(fields: [IdUsuario], references: [Id])
+    Endereco         Endereco?
+    Participantes    ParticipanteEvento[]
+    ListaEspera      ListaEsperaEvento[]
+
+    @@map("Eventos")
 }
 
 model Endereco {
-  id          String  @id @default(uuid()) // ID
-  logradouro  String
-  bairro      String
-  numero      String
-  complemento String?
-  cidade      String
-  uf          String
-  @@map("enderecos")
+    Id               String   @id @default(uuid()) @db.Uuid
+    DataHoraCadastro DateTime @default(now())
+    Logradouro       String   @db.VarChar(100)
+    Bairro           String   @db.VarChar(50)
+    Numero           String   @db.VarChar(10)
+    Complemento      String?  @db.VarChar(50)
+    Cidade           String   @db.VarChar(50)
+    Uf               String   @db.VarChar(2)
+    IdEvento         String   @unique @db.Uuid
+    Evento           Evento   @relation(fields: [IdEvento], references: [Id])
+
+    @@map("Enderecos")
 }
 
 model Participante {
-  id           String   @id @default(uuid()) // ID
-  idEvento     String
-  idUsuario    String
-  dataCadastro DateTime
-  @@map("participantes")
+    Id               String               @id @default(uuid()) @db.Uuid
+    DataHoraCadastro DateTime             @default(now())
+    Documento        String               @unique @db.VarChar(14)
+    Nome             String               @db.VarChar(50)
+    DataNascimento   DateTime
+    Celular          String?              @db.VarChar(15)
+    IdUsuario        String               @unique @db.Uuid
+    Usuario          Usuario              @relation(fields: [IdUsuario], references: [Id])
+    Eventos          ParticipanteEvento[]
+    ListaEspera      ListaEsperaEvento[]
+
+
+    @@map("Participantes")
 }
 
-model ListaEspera {
-  id           String   @id @default(uuid()) // ID
-  idEvento     String
-  idUsuario    String
-  dataCadastro DateTime
-  @@map("listaEspera")
+// Many-to-many
+model ParticipanteEvento {
+    Id               String       @id @default(uuid()) @db.Uuid
+    DataHoraCadastro DateTime     @default(now())
+    IdParticipante   String       @db.Uuid
+    Participante     Participante @relation(fields: [IdParticipante], references: [Id])
+    IdEvento         String       @db.Uuid
+    Evento           Evento       @relation(fields: [IdEvento], references: [Id])
+
+    @@unique([IdEvento, IdParticipante])
+    @@map("ParticipantesEventos")
+}
+
+model ListaEsperaEvento {
+    Id               String       @id @default(uuid()) @db.Uuid
+    DataHoraCadastro DateTime     @default(now())
+    IdEvento         String       @db.Uuid
+    Evento           Evento       @relation(fields: [IdEvento], references: [Id])
+    IdParticipante   String       @db.Uuid
+    Participante     Participante @relation(fields: [IdParticipante], references: [Id])
+
+    @@unique([IdEvento, IdParticipante])
+    @@map("ListaEsperaEventos")
 }

@@ -1,24 +1,24 @@
 import ICreateEventoModel from "../models/ICreateEventoModel";
 
 export default class Evento {
-    id: string;
-    dataHoraCadastro: Date;
-    nome: string;
-    descricao: string;
-    capacidadeMaxima: number;
-    dataHoraInicio: Date;
-    dataHoraFinal: Date;
-    idUsuario: string;
-    idLocal: string
+    Id: string;
+    DataHoraCadastro: Date;
+    Nome: string;
+    Descricao: string;
+    CapacidadeMaxima: number;
+    DataHoraInicio: Date;
+    DataHoraFinal: Date;
+    IdUsuario: string;
+    IdLocal: string
 
     constructor(createEventoModel: ICreateEventoModel) {
-        this.dataHoraCadastro = new Date();
-        this.nome = createEventoModel.nome;
-        this.descricao = createEventoModel.descricao;
-        this.capacidadeMaxima = createEventoModel.capacidadeMaxima;
-        this.dataHoraInicio = createEventoModel.dataHoraInicio;
-        this.dataHoraFinal = createEventoModel.dataHoraFinal;
-        this.idLocal = createEventoModel.idLocal;
-        this.idUsuario = createEventoModel.idUsuario;
+        this.DataHoraCadastro = new Date();
+        this.Nome = createEventoModel.Nome;
+        this.Descricao = createEventoModel.Descricao;
+        this.CapacidadeMaxima = createEventoModel.CapacidadeMaxima;
+        this.DataHoraInicio = createEventoModel.DataHoraInicio;
+        this.DataHoraFinal = createEventoModel.DataHoraFinal;
+        this.IdLocal = createEventoModel.IdLocal;
+        this.IdUsuario = createEventoModel.IdUsuario;
     }
 }

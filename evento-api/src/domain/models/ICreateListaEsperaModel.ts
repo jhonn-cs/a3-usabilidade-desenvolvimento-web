@@ -1,4 +1,4 @@
-export default  interface ICreateListaEsperaModel {
-    idUsuario: string;
-    idEvento: string;
+export default interface ICreateListaEsperaModel {
+    IdUsuario: string;
+    IdEvento: string;
 }

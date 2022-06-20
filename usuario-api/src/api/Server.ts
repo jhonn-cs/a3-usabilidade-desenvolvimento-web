@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import { interfaces } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
+import "./controllers/usuarios/CreateUsuarioController"
 
 export default function configureServer(container: interfaces.Container) {
     const server: InversifyExpressServer = new InversifyExpressServer(container, null, { rootPath: "/api" });
@@ -19,7 +20,7 @@ export default function configureServer(container: interfaces.Container) {
         });
     });
 
-    const port = 5500;
+    const port = 5501;
 
     server
         .build()
