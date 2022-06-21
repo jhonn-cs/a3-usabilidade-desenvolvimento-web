@@ -1,1 +1,1 @@
-# a3-usabilidade-desenvolvimento-web
+# Backend do projeto Receba Reservas para a atividade final da UC Sistemas distribuídos e mobile.
