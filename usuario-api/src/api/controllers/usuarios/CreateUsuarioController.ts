@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { inject } from "inversify";
 import { controller, httpPost, interfaces, request, response } from "inversify-express-utils";
+import ICreateUsuarioModel from "../../../domain/models/ICreateUsuarioModel";
 import IUsuarioModel from "../../../domain/models/IUsuarioModel";
 import ICreateUsuarioService from "../../../domain/services/ICreateUsuarioService";
 import CreateUsuarioService from "../../../services/CreateUsuarioService";
@@ -21,23 +22,13 @@ export class CreateUsuarioController extends BaseUsuarioController {
 
     @httpPost("/")
     private async handle(@request() request: Request, @response() response: Response): Promise<interfaces.IHttpActionResult> {
-        try {
-            const model: CreateUsuarioModel = request.body;
+        const model: CreateUsuarioModel = request.body;
 
-            if (!model)
-                return this.badRequest("Solicitação inválida.");
+        if (!model)
+            return this.badRequest("Solicitação inválida.");
 
-            const createdUsuario = await this.createUsuarioService.execute
-                (
-                    {
-                        Email: model.email,
-                        Senha: model.senha
-                    }
-                );
+        const createdUsuario = await this.createUsuarioService.execute(model.email, model.senha);
 
-            return this.created("", { id: createdUsuario.Id, email: createdUsuario.Email } as UsuarioModel);
-        } catch (error) {
-            return this.internalServerError(error);
-        }
+        return this.created("", createdUsuario);
     }
 }

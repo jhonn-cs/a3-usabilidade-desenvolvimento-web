@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Container } from "inversify";
-import configureDependencies from "../ioc/container";
-import configureServer from './Server';
+import { configureDependencies } from "../ioc/container";
+import { configureServer } from './Server';
 
 const container = new Container();
 

@@ -1,4 +1,4 @@
 export default interface ICreateUsuarioModel {
-    Email: string;
-    Senha: string;
+    email: string;
+    senha: string;
 }

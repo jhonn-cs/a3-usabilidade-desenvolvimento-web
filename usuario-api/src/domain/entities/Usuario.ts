@@ -5,11 +5,11 @@ export default class Usuario {
     DataHoraCadastro: Date;
     Email: string;
     Senha: string;
-    
+
 
     constructor(createUsuarioModel: ICreateUsuarioModel) {
         this.DataHoraCadastro = new Date();
-        this.Email = createUsuarioModel.Email;
-        this.Senha = createUsuarioModel.Senha;
+        this.Email = createUsuarioModel.email;
+        this.Senha = createUsuarioModel.senha;
     }
 }

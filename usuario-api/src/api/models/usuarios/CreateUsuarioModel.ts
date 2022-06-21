@@ -1,4 +1,4 @@
-class CreateUsuarioModel {
+type CreateUsuarioModel = {
     email: string;
     senha: string;
 }

@@ -1,4 +1,4 @@
 export default interface IUsuarioModel {
-    Id: string;
-    Email: string;
+    id: string;
+    email: string;
 }

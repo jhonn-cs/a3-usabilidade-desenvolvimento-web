@@ -13,8 +13,8 @@ datasource db {
 model Usuario {
     Id               String        @id @default(uuid()) @db.Uuid
     DataHoraCadastro DateTime      @default(now())
-    Email            String        @unique @db.VarChar(100)
-    Senha            String        @db.VarChar(15)
+    Email            String        @unique @db.VarChar(128)
+    Senha            String        @db.VarChar(64)
     Eventos          Evento[]
     Participante     Participante?
 
@@ -24,7 +24,7 @@ model Usuario {
 model Evento {
     Id               String               @id @default(uuid()) @db.Uuid
     DataHoraCadastro DateTime             @default(now())
-    Nome             String               @db.VarChar(50)
+    Nome             String               @db.VarChar(64)
     Descricao        String?
     CapacidadeMaxima Int                  @db.SmallInt
     DataHoraInicio   DateTime
@@ -41,11 +41,11 @@ model Evento {
 model Endereco {
     Id               String   @id @default(uuid()) @db.Uuid
     DataHoraCadastro DateTime @default(now())
-    Logradouro       String   @db.VarChar(100)
-    Bairro           String   @db.VarChar(50)
-    Numero           String   @db.VarChar(10)
-    Complemento      String?  @db.VarChar(50)
-    Cidade           String   @db.VarChar(50)
+    Logradouro       String   @db.VarChar(128)
+    Bairro           String   @db.VarChar(64)
+    Numero           String   @db.VarChar(16)
+    Complemento      String?  @db.VarChar(64)
+    Cidade           String   @db.VarChar(64)
     Uf               String   @db.VarChar(2)
     IdEvento         String   @unique @db.Uuid
     Evento           Evento   @relation(fields: [IdEvento], references: [Id])
@@ -57,7 +57,7 @@ model Participante {
     Id               String               @id @default(uuid()) @db.Uuid
     DataHoraCadastro DateTime             @default(now())
     Documento        String               @unique @db.VarChar(14)
-    Nome             String               @db.VarChar(50)
+    Nome             String               @db.VarChar(64)
     DataNascimento   DateTime
     Celular          String?              @db.VarChar(15)
     IdUsuario        String               @unique @db.Uuid

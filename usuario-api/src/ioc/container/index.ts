@@ -2,13 +2,13 @@ import { PrismaClient } from "@prisma/client";
 import { interfaces } from "inversify";
 import IUsuarioRepository from "../../domain/repositories/IUsuarioRepository";
 import ICreateUsuarioService from "../../domain/services/ICreateUsuarioService";
-import PrismaClientFactory from "../../infrastructure/data/database";
+import prismaClientFactory from "../../infrastructure/data/database"; "../../infrastructure/data/database";
 import UsuarioRepository from "../../infrastructure/data/repositories/UsuarioRepository";
 import CreateUsuarioService from "../../services/CreateUsuarioService";
 
-export default function configureDependencies(container: interfaces.Container) {
+export const configureDependencies = (container: interfaces.Container) => {
     container.bind<PrismaClient>(PrismaClient)
-        .toDynamicValue(PrismaClientFactory)
+        .toDynamicValue(prismaClientFactory)
         .inRequestScope();
 
     // repositories

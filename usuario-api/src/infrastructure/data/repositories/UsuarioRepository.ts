@@ -14,6 +14,14 @@ export default class UsuarioRepository implements IUsuarioRepository {
         this.usuarios = client.usuario;
     }
 
+    async findByEmail(email: string): Promise<Usuario> {
+        return await this.usuarios.findUnique({
+            where: {
+                Email: email
+            }
+        })
+    }
+
     async add(usuario: Usuario): Promise<Usuario> {
         return await this.usuarios.create({
             data: usuario

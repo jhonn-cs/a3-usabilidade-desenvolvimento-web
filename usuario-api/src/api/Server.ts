@@ -2,8 +2,9 @@ import bodyParser from "body-parser";
 import { interfaces } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 import "./controllers/usuarios/CreateUsuarioController"
+import { errorHandler } from "./middlewares/ErrorHandler";
 
-export default function configureServer(container: interfaces.Container) {
+export const configureServer = (container: interfaces.Container) => {
     const server: InversifyExpressServer = new InversifyExpressServer(container, null, { rootPath: "/api" });
     server.setConfig((app) => {
         app.use(bodyParser.urlencoded({
@@ -14,10 +15,7 @@ export default function configureServer(container: interfaces.Container) {
     });
 
     server.setErrorConfig((app) => {
-        app.use((err, req, res, next) => {
-            console.error(err.stack);
-            res.status(500).send('Something broke!');
-        });
+        app.use(errorHandler);
     });
 
     const port = 5501;

@@ -1,4 +1,4 @@
-class UsuarioModel {
+type UsuarioModel = {
     id: string;
     email: string;
 }
