@@ -1,4 +1,4 @@
-import IExceptionError from "../../core/exceptions/IExceptionError";
+import IExceptionError from "../../../../core/exceptions/IExceptionError";
 import Exception from "./Exception";
 
 export default class UsuarioAlreadyExistsException extends Exception {

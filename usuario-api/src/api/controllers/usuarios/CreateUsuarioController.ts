@@ -1,33 +1,31 @@
 import { Request, Response } from "express";
 import { inject } from "inversify";
 import { controller, httpPost, interfaces, request, response } from "inversify-express-utils";
-import ICreateUsuarioModel from "../../../domain/models/ICreateUsuarioModel";
-import IUsuarioModel from "../../../domain/models/IUsuarioModel";
 import ICreateUsuarioService from "../../../domain/services/ICreateUsuarioService";
-import CreateUsuarioService from "../../../services/CreateUsuarioService";
+import { TYPES } from "../../../infrastructure/ioc/types";
+import { authHandler } from "../../middlewares/AuthHandler";
 import BaseUsuarioController, { ROUTE_PREFIX } from "./BaseUsuarioController"
 
-@controller(ROUTE_PREFIX)
+@controller(ROUTE_PREFIX, authHandler(null))
 export class CreateUsuarioController extends BaseUsuarioController {
-    private readonly createUsuarioService: ICreateUsuarioService;
+    private readonly _createUsuarioService: ICreateUsuarioService;
 
     constructor(
-        @inject(CreateUsuarioService)
+        @inject(TYPES.ICreateUsuarioService)
         createUsuarioService: ICreateUsuarioService
     ) {
         super();
 
-        this.createUsuarioService = createUsuarioService;
+        this._createUsuarioService = createUsuarioService;
     }
 
     @httpPost("/")
-    private async handle(@request() request: Request, @response() response: Response): Promise<interfaces.IHttpActionResult> {
+    async handle(@request() request: Request, @response() response: Response): Promise<interfaces.IHttpActionResult> {
         const model: CreateUsuarioModel = request.body;
-
         if (!model)
             return this.badRequest("Solicitação inválida.");
 
-        const createdUsuario = await this.createUsuarioService.execute(model.email, model.senha);
+        const createdUsuario = await this._createUsuarioService.execute(model);
 
         return this.created("", createdUsuario);
     }

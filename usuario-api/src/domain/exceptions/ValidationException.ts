@@ -1,6 +1,6 @@
 import Exception from "./Exception";
-import IExceptionError from "../../core/exceptions/IExceptionError";
-import IValidationResult from "../../core/validations/interfaces/IValidationResult";
+import IExceptionError from "../../../../core/exceptions/IExceptionError";
+import IValidationResult from "../../../../core/validations/interfaces/IValidationResult";
 
 export default class ValidationException extends Exception {
     private static _message = "Solicitação inválida.";

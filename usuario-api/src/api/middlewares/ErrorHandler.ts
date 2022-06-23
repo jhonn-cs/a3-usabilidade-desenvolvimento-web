@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Exception from "../../domain/exceptions/Exception";
+import UnauthorizedException from "../../domain/exceptions/UnauthorizedException";
 import IErrorResponseModel from "../models/IErrorResponseModel";
 
 export const errorHandler = (
@@ -11,8 +12,12 @@ export const errorHandler = (
     const responseError = { message: err.message, exception: err.cause } as IErrorResponseModel;
     if (err instanceof Exception) {
         responseError.errors = err.serializeErrors();
-        return res.status(400).send(responseError);
+        return res.status(400).json(responseError);
     }
 
-    res.status(500).send(responseError)
+    if (err instanceof UnauthorizedException) {
+        return res.status(401).json(responseError);
+    }
+
+    res.status(500).json(responseError)
 }

@@ -1,4 +1,4 @@
-import IExceptionError from "../../core/exceptions/IExceptionError";
+import IExceptionError from "../../../../core/exceptions/IExceptionError";
 
 export default abstract class Exception extends Error {
     constructor(message: string) {

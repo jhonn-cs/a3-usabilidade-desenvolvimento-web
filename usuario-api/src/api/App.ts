@@ -1,9 +1,7 @@
 import 'reflect-metadata';
-import { Container } from "inversify";
-import { configureDependencies } from "../ioc/container";
+import { configureDependencies, container } from "../infrastructure/ioc/container";
 import { configureServer } from './Server';
 
-const container = new Container();
 
 export class App {
     constructor() {
