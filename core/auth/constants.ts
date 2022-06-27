@@ -1,0 +1,1 @@
+export const AUTH_SECRET = "4ec71863784018f7e95345ee439a7d52";

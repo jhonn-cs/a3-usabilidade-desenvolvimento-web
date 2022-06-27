@@ -1,8 +1,7 @@
-import { typeConstraint } from "inversify";
 import ICreateEnderecoModel from "../models/ICreateEnderecoModel";
 
 export default class Endereco {
-    Id: string;
+    Id!: string;
     DataHoraCadastro: Date;
     Logradouro: string;
     Bairro: string;
@@ -11,13 +10,13 @@ export default class Endereco {
     Cidade: string;
     Uf: string
 
-    constructor(createEnderecoModel: ICreateEnderecoModel) {
+    constructor(model: ICreateEnderecoModel) {
         this.DataHoraCadastro = new Date();
-        this.Logradouro = createEnderecoModel.Logradouro;
-        this.Bairro = createEnderecoModel.Bairro;
-        this.Numero = createEnderecoModel.Numero;
-        this.Complemento = createEnderecoModel.Complemento;
-        this.Cidade = createEnderecoModel.Cidade;
-        this.Uf = createEnderecoModel.Uf;
+        this.Logradouro = model.logradouro;
+        this.Bairro = model.bairro;
+        this.Numero = model.numero;
+        this.Complemento = model.complemento;
+        this.Cidade = model.cidade;
+        this.Uf = model.uf;
     }
 }

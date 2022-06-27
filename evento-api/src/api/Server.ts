@@ -1,9 +1,13 @@
 import bodyParser from "body-parser";
 import { interfaces } from "inversify";
-import { InversifyExpressServer } from "inversify-express-utils";
+import { getRouteInfo, InversifyExpressServer } from "inversify-express-utils";
+import { errorHandler } from "./middlewares/ErrorHandler";
 
-export default function configureServer(container: interfaces.Container) {
-    const server: InversifyExpressServer = new InversifyExpressServer(container, null, { rootPath: "/api" });
+// controllers
+import "../api/controllers/eventos/CreateEventoController";
+
+const configureServer = (container: interfaces.Container) => {
+    const server: InversifyExpressServer = new InversifyExpressServer(container, null, { rootPath: "/api" }, null, null);
     server.setConfig((app) => {
         app.use(bodyParser.urlencoded({
             extended: true
@@ -13,15 +17,20 @@ export default function configureServer(container: interfaces.Container) {
     });
 
     server.setErrorConfig((app) => {
-        app.use((err, req, res, next) => {
-            console.error(err.stack);
-            res.status(500).send('Something broke!');
-        });
+        app.use(errorHandler);
     });
 
     const port = 5500;
 
     server
         .build()
-        .listen(port, () => console.log(`Server is running on port: ${port}`));
+        .listen(port, () => {
+            console.log(`Server is running on port: ${port}`);
+            // if (process.env.NODE_ENV === 'development') {
+                const routeInfo = getRouteInfo(container);
+                console.log(JSON.stringify(routeInfo));
+            // }
+        });
 }
+
+export { configureServer }

@@ -1,10 +1,10 @@
 import { hash } from "bcrypt";
 import { inject, injectable } from "inversify";
-import IValidationResult from "../../core/validations/interfaces/IValidationResult";
-import ValidationResult from "../../core/validations/ValidationResult";
+import IValidationResult from "../../../core/validations/interfaces/IValidationResult";
+import ValidationResult from "../../../core/validations/ValidationResult";
 import Usuario from "../domain/entities/Usuario";
 import UsuarioAlreadyExistsException from "../domain/exceptions/UsuarioAlreadyExistsException";
-import ValidationException from "../domain/exceptions/ValidationException";
+import ValidationException from "../../../core/exceptions/ValidationException";
 import ICreateUsuarioModel from "../domain/models/ICreateUsuarioModel";
 import IUsuarioModel from "../domain/models/IUsuarioModel";
 import IUsuarioRepository from "../domain/repositories/IUsuarioRepository";

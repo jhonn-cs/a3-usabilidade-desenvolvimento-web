@@ -3,10 +3,9 @@ import { inject } from "inversify";
 import { controller, httpPost, interfaces, request, response } from "inversify-express-utils";
 import ICreateUsuarioService from "../../../domain/services/ICreateUsuarioService";
 import { TYPES } from "../../../infrastructure/ioc/types";
-import { authHandler } from "../../middlewares/AuthHandler";
 import BaseUsuarioController, { ROUTE_PREFIX } from "./BaseUsuarioController"
 
-@controller(ROUTE_PREFIX, authHandler(null))
+@controller(ROUTE_PREFIX)
 export class CreateUsuarioController extends BaseUsuarioController {
     private readonly _createUsuarioService: ICreateUsuarioService;
 

@@ -1,8 +1,8 @@
 export default interface ICreateEnderecoModel {
-    Logradouro: string;
-    Bairro: string;
-    Numero: string;
-    Complemento: string;
-    Cidade: string;
-    Uf: string
+    logradouro: string;
+    bairro: string;
+    numero: string;
+    complemento: string;
+    cidade: string;
+    uf: string
 }

@@ -8,8 +8,8 @@ import UsuarioRepository from "../../data/repositories/UsuarioRepository";
 import AuthenticateUsuarioService from "../../../services/AuthenticateUsuarioService";
 import CreateUsuarioService from "../../../services/CreateUsuarioService";
 import { TYPES } from "../types";
-import AuthService from "../../auth/AuthService";
-import IAuthService from "../../../../core/services/IAuthService";
+import ISignInService from "../../../../../core/services/ISignInService";
+import SignInService from "../../auth/SignInService";
 
 const configureDependencies = (container: interfaces.Container) => {
     //infrastructure services
@@ -17,7 +17,7 @@ const configureDependencies = (container: interfaces.Container) => {
         .toDynamicValue(prismaClientFactory)
         .inSingletonScope();
 
-    container.bind<IAuthService>(TYPES.IAuthService).to(AuthService).inRequestScope();
+    container.bind<ISignInService>(TYPES.ISignInService).to(SignInService).inRequestScope();
 
     // repositories
     container.bind<IUsuarioRepository>(TYPES.IUsuarioRepository).to(UsuarioRepository).inRequestScope();

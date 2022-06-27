@@ -1,6 +1,6 @@
 import { compare } from "bcrypt";
 import { inject, injectable } from "inversify";
-import UnauthorizedException from "../domain/exceptions/UnauthorizedException";
+import UnauthorizedException from "../../../core/exceptions/UnauthorizedException";
 import UsuarioNotFoundException from "../domain/exceptions/UsuarioNotFoundException";
 import IAuthenticateUsuarioModel from "../domain/models/IAuthenticateUsuarioModel";
 import IUsuarioModel from "../domain/models/IUsuarioModel";

@@ -7,7 +7,7 @@ import { errorHandler } from "./middlewares/ErrorHandler";
 import "./controllers/usuarios/AutheticateUsuarioController"
 import "./controllers/usuarios/CreateUsuarioController"
 
-export const configureServer = (container: interfaces.Container) => {
+const configureServer = (container: interfaces.Container) => {
     const server: InversifyExpressServer = new InversifyExpressServer(container, null, { rootPath: "/api" }, null, null);
     server.setConfig((app) => {
         app.use(bodyParser.urlencoded({
@@ -33,3 +33,5 @@ export const configureServer = (container: interfaces.Container) => {
             }
         });
 }
+
+export { configureServer }

@@ -1,8 +1,8 @@
 export default interface ICreateParticipanteModel {
-    Documento: string;
-    Nome: string;
-    DataNascimento: Date;
-    Celular: string;
-    IdEvento: string;
-    IdUsuario: string;
+    documento: string;
+    nome: string;
+    dataNascimento: Date;
+    celular: string;
+    idEvento: string;
+    idUsuario: string;
 } 

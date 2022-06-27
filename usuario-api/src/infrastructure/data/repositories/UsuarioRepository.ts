@@ -6,16 +6,18 @@ import { TYPES } from "../../ioc/types";
 
 @injectable()
 export default class UsuarioRepository implements IUsuarioRepository {
+    private readonly _client: PrismaClient
     private readonly _usuarios: Prisma.UsuarioDelegate<Prisma.RejectOnNotFound | Prisma.RejectPerOperation>;
 
     constructor(
         @inject(TYPES.PrismaClient)
-        private client: PrismaClient
+        client: PrismaClient
     ) {
+        this._client = client;
         this._usuarios = client.usuario;
     }
 
-    async findByEmail(email: string): Promise<Usuario> {
+    async findByEmail(email: string): Promise<Usuario | null> {
         return await this._usuarios.findUnique({
             where: {
                 Email: email
