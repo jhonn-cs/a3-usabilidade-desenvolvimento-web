@@ -10,6 +10,8 @@ import ICreateEventoService from "../../../domain/services/ICreateEventoService"
 import AuthService from "../../auth/AuthService";
 import UsuarioRepository from "../../data/repositories/UsuarioRepository";
 import IUsuarioRepository from "../../../domain/repositories/IUsuarioRepository";
+import GetEventoService from "../../../services/GetEventoService";
+import IGetEventoService from "../../../domain/services/IGetEventoService";
 
 function configureDependencies(container: interfaces.Container) {
     //infrastructure services
@@ -25,6 +27,7 @@ function configureDependencies(container: interfaces.Container) {
 
     // services
     container.bind<ICreateEventoService>(TYPES.ICreateEventoService).to(CreateEventoService).inRequestScope();
+    container.bind<IGetEventoService>(TYPES.IGetEventoService).to(GetEventoService).inRequestScope();
 }
 
 const container = new Container();

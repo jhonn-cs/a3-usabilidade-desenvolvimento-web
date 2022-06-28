@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { inject, injectable } from "inversify";
 import Evento from "../../../domain/entities/Evento";
 import IUpdateEventoModel from "../../../domain/models/IUpdateEventoModel";
@@ -7,17 +7,17 @@ import { TYPES } from "../../ioc/types";
 
 @injectable()
 export default class EventoRepository implements IEventoRepository {
-    private readonly _client: PrismaClient;
+    private readonly _eventos: Prisma.EventoDelegate<Prisma.RejectOnNotFound | Prisma.RejectPerOperation>;
 
     constructor(
         @inject(TYPES.PrismaClient)
         client: PrismaClient
     ) {
-        this._client = client;
+        this._eventos = client.evento;
     }
 
     async add(entity: Evento): Promise<Evento> {
-        const evento = await this._client.evento.create({
+        const evento = await this._eventos.create({
             data: {
                 Nome: entity.Nome,
                 CapacidadeMaxima: entity.CapacidadeMaxima,
@@ -40,19 +40,57 @@ export default class EventoRepository implements IEventoRepository {
             }
         });
 
-        return evento;
+        return evento as Evento;
     }
 
-    getById(id: string): Promise<Evento | null> {
-        throw new Error("Method not implemented.");
+    async getById(id: string): Promise<Evento> {
+        const evento = await this._eventos.findUnique({
+            where: {
+                Id: id
+            }
+        });
+
+        return evento as Evento;
     }
 
-    getAll(): Promise<Evento[]> {
-        throw new Error("Method not implemented.");
+    async getAll(): Promise<Evento[]> {
+        const eventos = await this._eventos.findMany();
+        return eventos as Evento[];
     }
 
-    update(entity: IUpdateEventoModel): Promise<void> {
-        throw new Error("Method not implemented.");
+    async getAllByIdUsuario(idUsuario: string): Promise<Evento[]> {
+        const eventos = await this._eventos.findMany({
+            where: {
+                IdUsuario: idUsuario
+            }
+        });
+
+        return eventos as Evento[];
+    }
+
+    async update(entity: Evento): Promise<void> {
+        await this._eventos.update({
+            data: {
+                Nome: entity.Nome,
+                Descricao: entity.Descricao,
+                CapacidadeMaxima: entity.CapacidadeMaxima,
+                DataHoraInicio: entity.DataHoraInicio,
+                DataHoraFinal: entity.DataHoraFinal,
+                Endereco: {
+                    update: {
+                        Logradouro: entity.Endereco.Logradouro,
+                        Numero: entity.Endereco.Numero,
+                        Complemento: entity.Endereco.Complemento,
+                        Bairro: entity.Endereco.Bairro,
+                        Cidade: entity.Endereco.Cidade,
+                        Uf: entity.Endereco.Uf
+                    }
+                }
+            },
+            where: {
+                Id: entity.Id
+            }
+        });
     }
 
 }

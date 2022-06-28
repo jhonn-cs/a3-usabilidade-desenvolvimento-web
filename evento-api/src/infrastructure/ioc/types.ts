@@ -3,5 +3,6 @@ export const TYPES = {
     IAuthService: Symbol.for("IAuthService"),
     IEventoRepository: Symbol.for("IEventoRepository"),
     IUsuarioRepository: Symbol.for("IUsuarioRepository"),
-    ICreateEventoService: Symbol.for("ICreateEventoService")
+    ICreateEventoService: Symbol.for("ICreateEventoService"),
+    IGetEventoService: Symbol.for("IGetEventoService")
 };

@@ -7,7 +7,7 @@ import { TYPES } from "../../../infrastructure/ioc/types";
 import { authHandler } from "../../middlewares/AuthHandler";
 import BaseEventoController, { ROUTE_PREFIX } from "./BaseEventoController";
 
-@controller(ROUTE_PREFIX)
+@controller(ROUTE_PREFIX, authHandler())
 export class CreateEventoController extends BaseEventoController {
     private readonly _createEventoService: ICreateEventoService;
     constructor(
@@ -19,12 +19,12 @@ export class CreateEventoController extends BaseEventoController {
         this._createEventoService = createEventoService;
     }
 
-    @httpPost("/", authHandler())
+    @httpPost("/")
     private async handle(@request() request: Request, @response() response: Response): Promise<interfaces.IHttpActionResult> {
         const model: CreateEventoModel = request.body
         const usuario: IAuthUserModel = request.user;
 
-        const createdEvento = await this._createEventoService.execute(
+        const createdEventoId = await this._createEventoService.execute(
             {
                 nome: model.nome,
                 descricao: model.descricao,
@@ -46,9 +46,9 @@ export class CreateEventoController extends BaseEventoController {
             }
         );
 
-        if (!createdEvento)
+        if (!createdEventoId)
             return this.badRequest("Falha ao criar o evento.");
 
-        return this.created("/eventos/" + createdEvento, "");
+        return this.created(`${ROUTE_PREFIX}/${createdEventoId}`, createdEventoId);
     }
 }

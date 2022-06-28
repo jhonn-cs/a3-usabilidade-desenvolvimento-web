@@ -10,6 +10,10 @@ import CreateUsuarioService from "../../../services/CreateUsuarioService";
 import { TYPES } from "../types";
 import ISignInService from "../../../../../core/services/ISignInService";
 import SignInService from "../../auth/SignInService";
+import GetUsuarioService from "../../../services/GetUsuarioService";
+import IGetUsuarioService from "../../../domain/services/IGetUsuarioService";
+import IAuthService from "../../../../../core/services/IAuthService";
+import AuthService from "../../auth/AuthService";
 
 const configureDependencies = (container: interfaces.Container) => {
     //infrastructure services
@@ -18,6 +22,7 @@ const configureDependencies = (container: interfaces.Container) => {
         .inSingletonScope();
 
     container.bind<ISignInService>(TYPES.ISignInService).to(SignInService).inRequestScope();
+    container.bind<IAuthService>(TYPES.IAuthService).to(AuthService).inRequestScope();
 
     // repositories
     container.bind<IUsuarioRepository>(TYPES.IUsuarioRepository).to(UsuarioRepository).inRequestScope();
@@ -25,7 +30,7 @@ const configureDependencies = (container: interfaces.Container) => {
     // services
     container.bind<ICreateUsuarioService>(TYPES.ICreateUsuarioService).to(CreateUsuarioService).inRequestScope();
     container.bind<IAuthenticateUsuarioService>(TYPES.IAuthenticateUsuarioService).to(AuthenticateUsuarioService).inRequestScope();
-
+    container.bind<IGetUsuarioService>(TYPES.IGetUsuarioService).to(GetUsuarioService).inRequestScope();
 }
 
 const container = new Container();

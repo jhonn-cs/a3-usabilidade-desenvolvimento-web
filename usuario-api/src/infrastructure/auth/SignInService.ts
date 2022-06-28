@@ -18,8 +18,8 @@ export default class SignInService implements ISignInService {
         this._authenticateUsuarioService = authenticateUsuarioService;
     }
 
-    async signIn({ email, senha }: ISignUserModel): Promise<string> {
-        const usuario = await this._authenticateUsuarioService.execute({ email, senha });
+    async signIn({ email, password }: ISignUserModel): Promise<string> {
+        const usuario = await this._authenticateUsuarioService.execute({ email, password });
         if (!usuario)
             throw new UnauthorizedException("Falha na autenticaão do usuário.");
 

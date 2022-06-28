@@ -1,4 +1,4 @@
 type CreateUsuarioModel = {
     email: string;
-    senha: string;
+    password: string;
 }

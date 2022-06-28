@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
+import { Request } from "express";
 import { inject } from "inversify";
-import { controller, httpPost, interfaces, request, response } from "inversify-express-utils";
+import { controller, httpPost, interfaces, request } from "inversify-express-utils";
 import ICreateUsuarioService from "../../../domain/services/ICreateUsuarioService";
 import { TYPES } from "../../../infrastructure/ioc/types";
 import BaseUsuarioController, { ROUTE_PREFIX } from "./BaseUsuarioController"
@@ -19,13 +19,17 @@ export class CreateUsuarioController extends BaseUsuarioController {
     }
 
     @httpPost("/")
-    async handle(@request() request: Request, @response() response: Response): Promise<interfaces.IHttpActionResult> {
+    async handle(@request() request: Request): Promise<interfaces.IHttpActionResult> {
         const model: CreateUsuarioModel = request.body;
         if (!model)
             return this.badRequest("Solicitação inválida.");
 
-        const createdUsuario = await this._createUsuarioService.execute(model);
+        const createdUsuario = await this._createUsuarioService.execute(
+            {
+                email: model.email,
+                senha: model.password
+            });
 
-        return this.created("", createdUsuario);
+        return this.created(ROUTE_PREFIX + createdUsuario.id, createdUsuario.id);
     }
 }

@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
+import { Request } from "express";
 import { inject } from "inversify";
-import { controller, httpPost, interfaces, request, response } from "inversify-express-utils";
+import { controller, httpPost, interfaces, request } from "inversify-express-utils";
 import ISignInService from "../../../../../core/services/ISignInService";
 import IAuthenticateUsuarioModel from "../../../domain/models/IAuthenticateUsuarioModel";
 import { TYPES } from "../../../infrastructure/ioc/types";
@@ -19,14 +19,14 @@ export class AutheticateUsuarioController extends BaseUsuarioController {
         this._signInService = signInService;
     }
 
-    @httpPost("/login")
-    async handle(@request() request: Request, @response() response: Response): Promise<interfaces.IHttpActionResult> {
-        const { email, senha }: IAuthenticateUsuarioModel = request.body;
+    @httpPost("/signin")
+    async handle(@request() request: Request): Promise<interfaces.IHttpActionResult> {
+        const { email, password }: IAuthenticateUsuarioModel = request.body;
 
-        const token = await this._signInService.signIn({ email, senha });
+        const token = await this._signInService.signIn({ email, password });
         if (!token)
             return this.statusCode(401);
 
-        return this.json({ token });
+        return this.json({ accessToken: token });
     }
 }

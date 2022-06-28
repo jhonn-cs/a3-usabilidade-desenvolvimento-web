@@ -6,14 +6,12 @@ import { TYPES } from "../../ioc/types";
 
 @injectable()
 export default class UsuarioRepository implements IUsuarioRepository {
-    private readonly _client: PrismaClient
     private readonly _usuarios: Prisma.UsuarioDelegate<Prisma.RejectOnNotFound | Prisma.RejectPerOperation>;
 
     constructor(
         @inject(TYPES.PrismaClient)
         client: PrismaClient
     ) {
-        this._client = client;
         this._usuarios = client.usuario;
     }
 
@@ -28,6 +26,14 @@ export default class UsuarioRepository implements IUsuarioRepository {
     async add(usuario: Usuario): Promise<Usuario> {
         return await this._usuarios.create({
             data: usuario
+        });
+    }
+
+    async getById(id: string): Promise<Usuario> {
+        return await this._usuarios.findUnique({
+            where: {
+                Id: id
+            }
         });
     }
 

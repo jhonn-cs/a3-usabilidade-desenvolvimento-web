@@ -19,7 +19,7 @@ export default class AuthenticateUsuarioService implements IAuthenticateUsuarioS
         this._usuarioRepository = usuarioRepository;
     }
 
-    async execute({ email, senha }: IAuthenticateUsuarioModel): Promise<IUsuarioModel> {
+    async execute({ email, password }: IAuthenticateUsuarioModel): Promise<IUsuarioModel> {
         if (!email)
             throw new UnauthorizedException("Falha na autenticação. E-mail ou senha inválido.");
 
@@ -27,7 +27,7 @@ export default class AuthenticateUsuarioService implements IAuthenticateUsuarioS
         if (!usuario)
             throw new UsuarioNotFoundException();
 
-        const passwordMatch = await compare(senha, usuario.Senha);
+        const passwordMatch = await compare(password, usuario.Senha);
         if (!passwordMatch)
             throw new UnauthorizedException("Falha na autenticação. E-mail ou senha inválido.");
 

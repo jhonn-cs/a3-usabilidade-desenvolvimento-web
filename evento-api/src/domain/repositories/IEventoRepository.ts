@@ -1,9 +1,9 @@
 import Evento from "../entities/Evento";
-import IUpdateEventoModel from "../models/IUpdateEventoModel";
 
 export default interface IEventoRepository {
     add(entity: Evento): Promise<Evento>;
-    getById(id: string): Promise<Evento | null>;
-    getAll(): Promise<Evento[]>
-    update(entity: IUpdateEventoModel): Promise<void>
+    getById(id: string): Promise<Evento>;
+    getAll(): Promise<Evento[]>;
+    getAllByIdUsuario(idUsuario: string): Promise<Evento[]>;
+    update(entity: Evento): Promise<void>;
 }
